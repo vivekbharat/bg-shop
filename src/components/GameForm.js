@@ -1,12 +1,29 @@
 import React, { Component } from "react";
 
+const tags = [
+  {
+    id: 1,
+    name: "dice"
+  },
+  {
+    id: 2,
+    name: "economic"
+  },
+  {
+    id: 3,
+    name: "family"
+  }
+];
+
 class GameForm extends Component {
   state = {
     name: "",
     description: "",
     price: 0,
     duration: 0,
-    players: ""
+    players: "",
+    featured: true,
+    tags: []
   };
 
   handleSubmit = e => {
@@ -22,6 +39,15 @@ class GameForm extends Component {
           : e.target.value
     });
   };
+
+  onCheckBoxChange = e => {
+    this.setState({ [e.target.name]: e.target.checked });
+  };
+
+  onToggleTags = tag =>
+    this.state.tags.includes(tag.id)
+      ? this.setState({ tags: this.state.tags.filter(id => id !== tag.id) })
+      : this.setState({ tags: [...this.state.tags, tag.id] });
 
   render() {
     return (
@@ -86,6 +112,32 @@ class GameForm extends Component {
                 onChange={this.onChange}
               />
             </div>
+          </div>
+
+          <div className="inline field">
+            <input
+              type="checkbox"
+              name="featured"
+              id="featured"
+              checked={this.state.featured}
+              onChange={this.onCheckBoxChange}
+            />
+            <label htmlFor="featured">Featured</label>
+          </div>
+
+          <div className="field">
+            <label>Tags</label>
+            {tags.map(tag => (
+              <div key={tag.id} className="inline field">
+                <input
+                  id={`tag={tag.id}`}
+                  type="checkbox"
+                  checked={this.state.tags.includes(tag.id)}
+                  onChange={() => this.onToggleTags(tag)}
+                />
+                <label htmlFor={`tag-${tag.id}`}>{tag.name}</label>
+              </div>
+            ))}
           </div>
 
           <button className="ui button" type="submit">
