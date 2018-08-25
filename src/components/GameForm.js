@@ -3,7 +3,10 @@ import React, { Component } from "react";
 class GameForm extends Component {
   state = {
     name: "",
-    description: ""
+    description: "",
+    price: 0,
+    duration: 0,
+    players: ""
   };
 
   handleSubmit = e => {
@@ -12,7 +15,12 @@ class GameForm extends Component {
   };
 
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({
+      [e.target.name]:
+        e.target.type === "number"
+          ? parseInt(e.target.value, 10)
+          : e.target.value
+    });
   };
 
   render() {
@@ -43,6 +51,41 @@ class GameForm extends Component {
               value={this.state.description}
               onChange={this.onChange}
             />
+          </div>
+
+          <div className="three fields">
+            <div className="field">
+              <label htmlFor="price">Game Price(in cents)</label>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                value={this.state.price}
+                onChange={this.onChange}
+              />
+            </div>
+
+            <div className="field">
+              <label htmlFor="duration">Game Duration(in mins)</label>
+              <input
+                type="number"
+                id="duration"
+                name="duration"
+                value={this.state.duration}
+                onChange={this.onChange}
+              />
+            </div>
+
+            <div className="field">
+              <label htmlFor="players">Game Players</label>
+              <input
+                type="text"
+                id="players"
+                name="players"
+                value={this.state.players}
+                onChange={this.onChange}
+              />
+            </div>
           </div>
 
           <button className="ui button" type="submit">
