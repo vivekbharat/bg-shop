@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import GamesList from "./GamesList";
 import _ from "lodash";
+
+import GamesList from "./GamesList";
+import GameForm from "./GameForm";
 
 const game = [
   {
@@ -52,6 +54,7 @@ class App extends Component {
   render() {
     return (
       <div className="ui container">
+        <GameForm />
         <GamesList
           games={this.state.games}
           toggleFeature={this.toggleFeature}
