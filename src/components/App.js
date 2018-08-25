@@ -4,9 +4,16 @@ import _ from "lodash";
 import GamesList from "./GamesList";
 import GameForm from "./GameForm";
 
+const publishers = [
+  { id: 1, name: "Vivek" },
+  { id: 2, name: "Bharathwaj" },
+  { id: 3, name: "Ravikumar" }
+];
+
 const game = [
   {
     id: 1,
+    publisher: 1,
     featured: true,
     name: "Quadrapolis",
     thumbnail:
@@ -17,13 +24,25 @@ const game = [
   },
   {
     id: 2,
+    publisher: 2,
     featured: false,
-    name: "aoll for the Galaxy",
+    name: "Roll for the Galaxy",
     thumbnail:
       "https://cdn.shopify.com/s/files/1/0934/2076/products/Blue_Summer2_1024x1024.jpg?v=1445982485",
     price: 2999,
     players: "2-4",
     duration: 45
+  },
+  {
+    id: 3,
+    publisher: 3,
+    featured: false,
+    name: "Five Tribe",
+    thumbnail:
+      "https://cdn.shopify.com/s/files/1/0934/2076/products/Blue_Summer2_1024x1024.jpg?v=1445982485",
+    price: 1599,
+    players: "2-6",
+    duration: 120
   }
 ];
 
@@ -54,7 +73,7 @@ class App extends Component {
   render() {
     return (
       <div className="ui container">
-        <GameForm />
+        <GameForm publishers={publishers} />
         <GamesList
           games={this.state.games}
           toggleFeature={this.toggleFeature}
