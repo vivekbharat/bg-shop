@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 
 const tags = [
-  {
-    id: 1,
-    name: "dice"
-  },
-  {
-    id: 2,
-    name: "economic"
-  },
-  {
-    id: 3,
-    name: "family"
-  }
+  { id: 1, name: "dice" },
+  { id: 2, name: "economic" },
+  { id: 3, name: "family" }
+];
+
+const genres = [
+  { id: 1, name: "abstract" },
+  { id: 2, name: "action" },
+  { id: 3, name: "euro" }
 ];
 
 class GameForm extends Component {
@@ -23,7 +20,8 @@ class GameForm extends Component {
     duration: 0,
     players: "",
     featured: true,
-    tags: []
+    tags: [],
+    genre: 1
   };
 
   handleSubmit = e => {
@@ -43,6 +41,8 @@ class GameForm extends Component {
   onCheckBoxChange = e => {
     this.setState({ [e.target.name]: e.target.checked });
   };
+
+  handleGenreChange = genre => this.setState({ genre: genre.id });
 
   onToggleTags = tag =>
     this.state.tags.includes(tag.id)
@@ -136,6 +136,21 @@ class GameForm extends Component {
                   onChange={() => this.onToggleTags(tag)}
                 />
                 <label htmlFor={`tag-${tag.id}`}>{tag.name}</label>
+              </div>
+            ))}
+          </div>
+
+          <div className="field">
+            <label>Genre</label>
+            {genres.map(genre => (
+              <div key={genre.id} className="inline field">
+                <input
+                  type="radio"
+                  id={`genre-${genre.id}`}
+                  checked={this.state.genre === genre.id}
+                  onChange={() => this.handleGenreChange(genre)}
+                />
+                <label htmlFor={`genre-${genre.id}`}>{genre.name}</label>
               </div>
             ))}
           </div>
