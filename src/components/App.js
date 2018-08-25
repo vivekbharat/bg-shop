@@ -3,6 +3,7 @@ import _ from "lodash";
 
 import GamesList from "./GamesList";
 import GameForm from "./GameForm";
+import TopNavigation from "./TopNavigation";
 
 const publishers = [
   { id: 1, name: "Vivek" },
@@ -48,7 +49,8 @@ const game = [
 
 class App extends Component {
   state = {
-    games: []
+    games: [],
+    showGameForm: false
   };
 
   componentDidMount() {
@@ -70,14 +72,32 @@ class App extends Component {
     this.setState({ games: this.sortBy(newGames) });
   };
 
+  showGameForm = () =>
+    this.setState({ showGameForm: !this.state.showGameForm });
+
   render() {
+    const numberOfColumns = this.state.showGameForm ? "ten" : "sixteen";
     return (
       <div className="ui container">
-        <GameForm publishers={publishers} />
-        <GamesList
-          games={this.state.games}
-          toggleFeature={this.toggleFeature}
-        />
+        <TopNavigation showGameForm={this.showGameForm} />
+        <div className="ui stackable grid">
+          {this.state.showGameForm && (
+            <div className="six wide column">
+              <GameForm
+                publishers={publishers}
+                showGameForm={this.showGameForm}
+              />
+            </div>
+          )}
+          <div className={`${numberOfColumns} wide column`}>
+            <GamesList
+              games={this.state.games}
+              toggleFeature={this.toggleFeature}
+            />
+          </div>
+        </div>
+
+        <br />
       </div>
     );
   }
