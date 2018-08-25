@@ -4,7 +4,7 @@ import Message from "./Message";
 
 import PropTypes from "prop-types";
 
-const GamesList = ({ games }) => {
+const GamesList = ({ games, toggleFeature }) => {
   return (
     <div className="ui four cards">
       {games.length === 0 ? (
@@ -14,7 +14,9 @@ const GamesList = ({ games }) => {
           type="info"
         />
       ) : (
-        games.map(game => <GameCard game={game} key={game.id} />)
+        games.map(game => (
+          <GameCard game={game} key={game.id} toggleFeature={toggleFeature} />
+        ))
       )}
     </div>
   );

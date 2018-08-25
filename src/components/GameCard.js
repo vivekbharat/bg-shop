@@ -5,11 +5,15 @@ import Price from "./Price";
 
 import Featured from "./Featured";
 
-const GameCard = ({ game }) => (
+const GameCard = ({ game, toggleFeature }) => (
   <div className="ui card">
     <div className="image">
       <Price cents={game.price} />
-      <Featured featured={game.featured} />
+      <Featured
+        featured={game.featured}
+        toggleFeature={toggleFeature}
+        gameId={game.id}
+      />
       <img src={game.thumbnail} alt="Game Cover" />
     </div>
     <div className="content">
