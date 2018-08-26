@@ -105,6 +105,11 @@ class App extends Component {
       showGameForm: false
     });
 
+  deleteGame = game =>
+    this.setState({
+      games: this.state.games.filter(item => item.id !== game.id)
+    });
+
   selectGameForEditing = game =>
     this.setState({ selectedGame: game, showGameForm: true });
 
@@ -129,6 +134,7 @@ class App extends Component {
               games={this.state.games}
               toggleFeature={this.toggleFeature}
               editGame={this.selectGameForEditing}
+              deleteGame={this.deleteGame}
             />
           </div>
         </div>
