@@ -83,6 +83,7 @@ class App extends Component {
       this.setState({ showGameForm: true, selectedGame: {} });
     }
   };
+  saveGame = game => (game.id ? this.updateGame(game) : this.addGame(game));
 
   addGame = data =>
     this.setState({
@@ -93,6 +94,14 @@ class App extends Component {
           id: this.state.games.length + 1
         }
       ]),
+      showGameForm: false
+    });
+
+  updateGame = game =>
+    this.setState({
+      games: this.sortBy(
+        this.state.games.map(item => (item.id === game.id ? game : item))
+      ),
       showGameForm: false
     });
 
@@ -110,7 +119,7 @@ class App extends Component {
               <GameForm
                 publishers={publishers}
                 showGameForm={this.showGameForm}
-                submit={this.addGame}
+                submit={this.saveGame}
                 game={this.state.selectedGame}
               />
             </div>
