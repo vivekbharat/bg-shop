@@ -33,9 +33,27 @@ class GameForm extends Component {
     errors: {}
   };
 
+  validate(data) {
+    const errors = {};
+
+    if (!data.name) errors.name = "This Field can't be blank";
+    if (!data.players) errors.players = "This Field can't be blank";
+    if (!data.publisher) errors.publisher = "This Field can't be blank";
+    if (!data.thumbnail) errors.thumbnail = "This Field can't be blank";
+    if (data.price <= 0) errors.price = "Enter a Valid Amount";
+    if (data.duration <= 0) errors.duration = "Enter a Valid Duration";
+
+    return errors;
+  }
+
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state.data);
+    const errors = this.validate(this.state.data);
+    this.setState({ errors });
+
+    if (Object.keys(errors).length === 0) {
+      this.props.submit(this.state.data);
+    }
   };
 
   onChange = e => {
@@ -254,7 +272,8 @@ GameForm.propTypes = {
       name: PropTypes.string.isRequired
     })
   ).isRequired,
-  showGameForm: PropTypes.func.isRequired
+  showGameForm: PropTypes.func.isRequired,
+  submit: PropTypes.func.isRequired
 };
 
 GameForm.defaultProps = {

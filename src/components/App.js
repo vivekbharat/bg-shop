@@ -75,6 +75,18 @@ class App extends Component {
   showGameForm = () =>
     this.setState({ showGameForm: !this.state.showGameForm });
 
+  addGame = data =>
+    this.setState({
+      games: this.sortBy([
+        ...this.state.games,
+        {
+          ...data,
+          id: this.state.games.length + 1
+        }
+      ]),
+      showGameForm: false
+    });
+
   render() {
     const numberOfColumns = this.state.showGameForm ? "ten" : "sixteen";
     return (
@@ -86,6 +98,7 @@ class App extends Component {
               <GameForm
                 publishers={publishers}
                 showGameForm={this.showGameForm}
+                submit={this.addGame}
               />
             </div>
           )}
