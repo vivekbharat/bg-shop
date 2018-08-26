@@ -16,34 +16,41 @@ import ReactImageFallback from "react-image-fallback";
 
 class GameForm extends Component {
   state = {
-    name: "",
-    description: "",
-    price: 0,
-    duration: 0,
-    players: "",
-    featured: true,
-    // tags: [],
-    // genre: 1,
-    publisher: 0,
-    thumbnail: ""
+    data: {
+      name: "",
+      description: "",
+      price: 0,
+      duration: 0,
+      players: "",
+      featured: true,
+      // tags: [],
+      // genre: 1,
+      publisher: 0,
+      thumbnail: ""
+    }
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log({ title: this.state });
+    console.log(this.state.data);
   };
 
   onChange = e => {
     this.setState({
-      [e.target.name]:
-        e.target.type === "number"
-          ? parseInt(e.target.value, 10)
-          : e.target.value
+      data: {
+        ...this.state.data,
+        [e.target.name]:
+          e.target.type === "number"
+            ? parseInt(e.target.value, 10)
+            : e.target.value
+      }
     });
   };
 
   onCheckBoxChange = e => {
-    this.setState({ [e.target.name]: e.target.checked });
+    this.setState({
+      data: { ...this.state.data, [e.target.name]: e.target.checked }
+    });
   };
 
   // handleGenreChange = genre => this.setState({ genre: genre.id });
@@ -54,6 +61,7 @@ class GameForm extends Component {
   //     : this.setState({ tags: [...this.state.tags, tag.id] });
 
   render() {
+    const { data } = this.state;
     return (
       <div>
         <form className="ui form" onSubmit={this.handleSubmit}>
@@ -67,7 +75,7 @@ class GameForm extends Component {
                   name="name"
                   placeholder="Full Game Title"
                   // ref={input => (this.name = input)}
-                  value={this.state.name}
+                  value={data.name}
                   onChange={this.onChange}
                 />
               </div>
@@ -80,15 +88,15 @@ class GameForm extends Component {
                   name="description"
                   placeholder="Full Game Description"
                   // ref={input => (this.description = input)}
-                  value={this.state.description}
+                  value={data.description}
                   onChange={this.onChange}
                 />
               </div>
             </div>
             <div className="four wide column">
-              {/* {this.state.thumbnail ? (
+              {/* {data.thumbnail ? (
                 <img
-                  src={this.state.thumbnail}
+                  src={data.thumbnail}
                   alt="Thumbnail"
                   className="ui image"
                 />
@@ -100,7 +108,7 @@ class GameForm extends Component {
                 />
               )} */}
               <ReactImageFallback
-                src={this.state.thumbnail}
+                src={data.thumbnail}
                 fallbackImage="http://via.placeholder.com/250x250"
                 alt="Thumbnail"
                 className="ui image"
@@ -116,7 +124,7 @@ class GameForm extends Component {
               name="thumbnail"
               placeholder="Imag URl"
               // ref={input => (this.name = input)}
-              value={this.state.name}
+              value={data.name}
               onChange={this.onChange}
             />
           </div>
@@ -128,7 +136,7 @@ class GameForm extends Component {
                 type="number"
                 id="price"
                 name="price"
-                value={this.state.price}
+                value={data.price}
                 onChange={this.onChange}
               />
             </div>
@@ -139,7 +147,7 @@ class GameForm extends Component {
                 type="number"
                 id="duration"
                 name="duration"
-                value={this.state.duration}
+                value={data.duration}
                 onChange={this.onChange}
               />
             </div>
@@ -150,7 +158,7 @@ class GameForm extends Component {
                 type="text"
                 id="players"
                 name="players"
-                value={this.state.players}
+                value={data.players}
                 onChange={this.onChange}
               />
             </div>
@@ -161,7 +169,7 @@ class GameForm extends Component {
               type="checkbox"
               name="featured"
               id="featured"
-              checked={this.state.featured}
+              checked={data.featured}
               onChange={this.onCheckBoxChange}
             />
             <label htmlFor="featured">Featured</label>
@@ -174,7 +182,7 @@ class GameForm extends Component {
                 <input
                   id={`tag={tag.id}`}
                   type="checkbox"
-                  checked={this.state.tags.includes(tag.id)}
+                  checked={data.tags.includes(tag.id)}
                   onChange={() => this.onToggleTags(tag)}
                 />
                 <label htmlFor={`tag-${tag.id}`}>{tag.name}</label>
@@ -189,7 +197,7 @@ class GameForm extends Component {
                 <input
                   type="radio"
                   id={`genre-${genre.id}`}
-                  checked={this.state.genre === genre.id}
+                  checked={data.genre === genre.id}
                   onChange={() => this.handleGenreChange(genre)}
                 />
                 <label htmlFor={`genre-${genre.id}`}>{genre.name}</label>
@@ -201,7 +209,7 @@ class GameForm extends Component {
             <label htmlFor="">Publisher</label>
             <select
               name="publisher"
-              value={this.state.publisher}
+              value={data.publisher}
               onChange={this.onChange}
               id=""
             >
