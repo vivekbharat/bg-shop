@@ -18,6 +18,7 @@ import FormInlineMessage from "./FormInlineMessage";
 class GameForm extends Component {
   state = {
     data: {
+      id: null,
       name: "",
       description: "",
       price: 0,
@@ -32,6 +33,12 @@ class GameForm extends Component {
 
     errors: {}
   };
+
+  componentDidMount() {
+    if (this.props.game.id) {
+      this.setState({ data: this.props.game });
+    }
+  }
 
   validate(data) {
     const errors = {};
@@ -147,7 +154,7 @@ class GameForm extends Component {
               name="thumbnail"
               placeholder="Imag URl"
               // ref={input => (this.name = input)}
-              value={data.name}
+              value={data.thumbnail}
               onChange={this.onChange}
             />
             <FormInlineMessage content={errors.thumbnail} type="error" />
@@ -273,7 +280,16 @@ GameForm.propTypes = {
     })
   ).isRequired,
   showGameForm: PropTypes.func.isRequired,
-  submit: PropTypes.func.isRequired
+  submit: PropTypes.func.isRequired,
+  game: PropTypes.shape({
+    id: PropTypes.number,
+    featured: PropTypes.bool,
+    price: PropTypes.number,
+    duration: PropTypes.number,
+    thumbnail: PropTypes.string,
+    players: PropTypes.string,
+    name: PropTypes.string
+  }).isRequired
 };
 
 GameForm.defaultProps = {

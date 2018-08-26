@@ -50,7 +50,8 @@ const game = [
 class App extends Component {
   state = {
     games: [],
-    showGameForm: false
+    showGameForm: false,
+    selectedGame: {}
   };
 
   componentDidMount() {
@@ -87,6 +88,9 @@ class App extends Component {
       showGameForm: false
     });
 
+  selectGameForEditing = game =>
+    this.setState({ selectedGame: game, showGameForm: true });
+
   render() {
     const numberOfColumns = this.state.showGameForm ? "ten" : "sixteen";
     return (
@@ -99,6 +103,7 @@ class App extends Component {
                 publishers={publishers}
                 showGameForm={this.showGameForm}
                 submit={this.addGame}
+                game={this.state.selectedGame}
               />
             </div>
           )}
@@ -106,6 +111,7 @@ class App extends Component {
             <GamesList
               games={this.state.games}
               toggleFeature={this.toggleFeature}
+              editGame={this.selectGameForEditing}
             />
           </div>
         </div>
