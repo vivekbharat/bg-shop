@@ -73,8 +73,16 @@ class App extends Component {
     this.setState({ games: this.sortBy(newGames) });
   };
 
-  showGameForm = () =>
-    this.setState({ showGameForm: !this.state.showGameForm });
+  showGameForm = () => {
+    if (this.state.showGameForm) {
+      this.setState({
+        showGameForm: !this.state.showGameForm,
+        selectedGame: {}
+      });
+    } else {
+      this.setState({ showGameForm: true, selectedGame: {} });
+    }
+  };
 
   addGame = data =>
     this.setState({

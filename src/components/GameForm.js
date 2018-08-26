@@ -15,28 +15,38 @@ import FormInlineMessage from "./FormInlineMessage";
 //   { id: 3, name: "euro" }
 // ];
 
+const initialData = {
+  id: null,
+  name: "",
+  description: "",
+  price: 0,
+  duration: 0,
+  players: "",
+  featured: true,
+  // tags: [],
+  // genre: 1,
+  publisher: 0,
+  thumbnail: ""
+};
+
 class GameForm extends Component {
   state = {
-    data: {
-      id: null,
-      name: "",
-      description: "",
-      price: 0,
-      duration: 0,
-      players: "",
-      featured: true,
-      // tags: [],
-      // genre: 1,
-      publisher: 0,
-      thumbnail: ""
-    },
-
+    data: initialData,
     errors: {}
   };
 
   componentDidMount() {
     if (this.props.game.id) {
       this.setState({ data: this.props.game });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.game.id && nextProps.game.id !== this.state.data.id) {
+      this.setState({ data: nextProps.game });
+    }
+    if (!nextProps.game.id) {
+      this.setState({ data: initialData });
     }
   }
 
