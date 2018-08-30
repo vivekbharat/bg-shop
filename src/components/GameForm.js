@@ -31,7 +31,8 @@ const initialData = {
 class GameForm extends Component {
   state = {
     data: initialData,
-    errors: {}
+    errors: {},
+    loading: false
   };
 
   componentDidMount() {
@@ -65,10 +66,18 @@ class GameForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const errors = this.validate(this.state.data);
+    // const errors = {};
     this.setState({ errors });
 
     if (Object.keys(errors).length === 0) {
-      this.props.submit(this.state.data);
+      this.setState({ loading: true });
+      setTimeout(() => {
+        this.props
+          .submit(this.state.data)
+          .catch(err =>
+            this.setState({ errors: err.response.data.errors, loading: false })
+          );
+      }, 3000);
     }
   };
 
@@ -98,10 +107,11 @@ class GameForm extends Component {
   //     : this.setState({ tags: [...this.state.tags, tag.id] });
 
   render() {
-    const { data, errors } = this.state;
+    const { data, errors, loading } = this.state;
+    const formClassNames = loading ? "ui form loading" : "ui form";
     return (
       <div>
-        <form className="ui form" onSubmit={this.handleSubmit}>
+        <form className={formClassNames} onSubmit={this.handleSubmit}>
           <div className="ui grid">
             <div className="twelve wide column">
               <div className={errors.name ? "field error" : "field"}>
@@ -284,14 +294,14 @@ class GameForm extends Component {
 GameForm.propTypes = {
   publishers: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.String.isRequired,
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
     })
   ).isRequired,
   showGameForm: PropTypes.func.isRequired,
   submit: PropTypes.func.isRequired,
   game: PropTypes.shape({
-    id: PropTypes.String,
+    id: PropTypes.string,
     featured: PropTypes.bool,
     price: PropTypes.number,
     duration: PropTypes.number,
