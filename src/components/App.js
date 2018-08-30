@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 // import axios from "axios";
+// import _ from "lodash";
 
 import GamesList from "./GamesList";
 import GameForm from "./GameForm";
@@ -17,13 +18,18 @@ class App extends Component {
   state = {
     games: [],
     showGameForm: false,
-    selectedGame: {}
+    selectedGame: {},
+    loading: true
   };
 
   componentDidMount() {
-    api.games
-      .fetchAll()
-      .then(games => this.setState({ games: this.sortBy(games) }));
+    setTimeout(() => {
+      api.games
+        .fetchAll()
+        .then(games =>
+          this.setState({ games: this.sortBy(games), loading: false })
+        );
+    }, 3000);
   }
 
   sortBy = game => {
@@ -31,13 +37,20 @@ class App extends Component {
   };
 
   toggleFeature = gameId => {
-    const newGames = this.state.games.map(game => {
-      if (game.id === gameId) return { ...game, featured: !game.featured };
-      return game;
+    const game = _.find(this.state.games, { _id: gameId });
+    // console.log(game);
+    return this.updateGame({
+      ...game,
+      featured: !game.featured
     });
-
-    this.setState({ games: this.sortBy(newGames) });
   };
+
+  //   const newGames = this.state.games.map(game => {
+  //     if (game.id === gameId) return { ...game, featured: !game.featured };
+  //     return game;
+  //   });
+
+  //   this.setState({ games: this.sortBy(newGames) });
 
   showGameForm = () => {
     if (this.state.showGameForm) {
@@ -69,18 +82,31 @@ class App extends Component {
   //   showGameForm: false
   // });
 
-  updateGame = game =>
-    this.setState({
-      games: this.sortBy(
-        this.state.games.map(item => (item.id === game.id ? game : item))
-      ),
-      showGameForm: false
-    });
+  updateGame = gameData =>
+    api.games.update(gameData).then(game =>
+      this.setState({
+        games: this.sortBy(
+          this.state.games.map(item => (item._id === game._id ? game : item))
+        ),
+        showGameForm: false
+      })
+    );
+  // this.setState({
+  //   games: this.sortBy(
+  //     this.state.games.map(item => (item.id === game.id ? game : item))
+  //   ),
+  //   showGameForm: false
+  // });
 
   deleteGame = game =>
-    this.setState({
-      games: this.state.games.filter(item => item.id !== game.id)
-    });
+    api.games.delete(game).then(() =>
+      this.setState({
+        games: this.state.games.filter(item => item._id !== game._id)
+      })
+    );
+  // this.setState({
+  //   games: this.state.games.filter(item => item.id !== game.id)
+  // });
 
   selectGameForEditing = game =>
     this.setState({ selectedGame: game, showGameForm: true });
@@ -102,12 +128,22 @@ class App extends Component {
             </div>
           )}
           <div className={`${numberOfColumns} wide column`}>
-            <GamesList
-              games={this.state.games}
-              toggleFeature={this.toggleFeature}
-              editGame={this.selectGameForEditing}
-              deleteGame={this.deleteGame}
-            />
+            {this.state.loading ? (
+              <div className="ui icon message">
+                <i className="notched circle loading icon" />
+                <div className="content">
+                  <div className="header">Wait a second</div>
+                  <p>Loading... games collection</p>
+                </div>
+              </div>
+            ) : (
+              <GamesList
+                games={this.state.games}
+                toggleFeature={this.toggleFeature}
+                editGame={this.selectGameForEditing}
+                deleteGame={this.deleteGame}
+              />
+            )}
           </div>
         </div>
 

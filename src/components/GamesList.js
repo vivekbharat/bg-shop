@@ -17,7 +17,7 @@ const GamesList = ({ games, toggleFeature, editGame, deleteGame }) => {
         games.map(game => (
           <GameCard
             game={game}
-            key={game.id}
+            key={game._id}
             toggleFeature={toggleFeature}
             editGame={editGame}
             deleteGame={deleteGame}

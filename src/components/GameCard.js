@@ -22,7 +22,7 @@ class GameCard extends React.Component {
           <Featured
             featured={game.featured}
             toggleFeature={toggleFeature}
-            gameId={game.id}
+            gameId={game._id}
           />
           <img src={game.thumbnail} alt="Game Cover" />
         </div>
@@ -77,7 +77,7 @@ class GameCard extends React.Component {
 
 GameCard.propTypes = {
   game: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    _id: PropTypes.string.isRequired,
     featured: PropTypes.bool.isRequired,
     price: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
