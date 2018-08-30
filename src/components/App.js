@@ -8,9 +8,9 @@ import TopNavigation from "./TopNavigation";
 import api from "../api";
 
 const publishers = [
-  { id: 1, name: "Vivek" },
-  { id: 2, name: "Bharathwaj" },
-  { id: 3, name: "Ravikumar" }
+  { id: "1", name: "Vivek" },
+  { id: "2", name: "Bharathwaj" },
+  { id: "3", name: "Ravikumar" }
 ];
 
 class App extends Component {
@@ -51,17 +51,23 @@ class App extends Component {
   };
   saveGame = game => (game.id ? this.updateGame(game) : this.addGame(game));
 
-  addGame = data =>
-    this.setState({
-      games: this.sortBy([
-        ...this.state.games,
-        {
-          ...data,
-          id: this.state.games.length + 1
-        }
-      ]),
-      showGameForm: false
-    });
+  addGame = gameData =>
+    api.games.create(gameData).then(game =>
+      this.setState({
+        games: this.sortBy([...this.state.games, game]),
+        showGameForm: false
+      })
+    );
+  // this.setState({
+  //   games: this.sortBy([
+  //     ...this.state.games,
+  //     {
+  //       ...data,
+  //       id: this.state.games.length + 1
+  //     }
+  //   ]),
+  //   showGameForm: false
+  // });
 
   updateGame = game =>
     this.setState({

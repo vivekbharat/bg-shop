@@ -16,7 +16,6 @@ import FormInlineMessage from "./FormInlineMessage";
 // ];
 
 const initialData = {
-  id: null,
   name: "",
   description: "",
   price: 0,
@@ -285,14 +284,14 @@ class GameForm extends Component {
 GameForm.propTypes = {
   publishers: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.String.isRequired,
       name: PropTypes.string.isRequired
     })
   ).isRequired,
   showGameForm: PropTypes.func.isRequired,
   submit: PropTypes.func.isRequired,
   game: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.String,
     featured: PropTypes.bool,
     price: PropTypes.number,
     duration: PropTypes.number,
